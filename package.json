@@ -5,12 +5,12 @@
   "main": "frozen_cookie.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mtarnuhal/FrozenCookies.git"
+    "url": "git+https://github.com/MakingBaconPancakes/FrozenCookies.git"
   },
   "author": "Lordshinjo",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/Mtarnuhal/FrozenCookies/issues"
+    "url": "https://github.com/MakingBaconPancakes/FrozenCookies/issues"
   },
-  "homepage": "https://github.com/Mtarnuhal/FrozenCookies#readme"
+  "homepage": "https://github.com/MakingBaconPancakes/FrozenCookies#readme"
 }
