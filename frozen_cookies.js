@@ -1,4 +1,5 @@
-// Reroll wouldn't work. Use Pastebin bookmarklet: javascript:(function() { Game.LoadMod('https://pastebin.com/raw/w9tpK9gB'); }());
+// Reroll wouldn't work. Use Pastebin bookmarklet: 
+// javascript:(function() { Game.LoadMod('https://pastebin.com/raw/w9tpK9gB'); }());
 // Global Variables
 var scriptElement = document.getElementById('frozenCookieScript') !== null ?
     document.getElementById('frozenCookieScript') :
