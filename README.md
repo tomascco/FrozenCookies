@@ -37,6 +37,9 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+2019 May 11
+- Tweaked SpellPredict to show next 10 results with more color coding. Not the prettiest columns, but I have no clue how to make them pretty.  
+
 2018 Oct 27
 - Added Shimmering veil blacklists
 - Updated SE auto cast strategy to use new fractal engine instead of chancemaker.
