@@ -30,7 +30,6 @@ var script_list = [
     FrozenCookies.baseUrl + '/fc_main.js',
     FrozenCookies.baseUrl + '/fc_button.js',
     FrozenCookies.baseUrl + '/fc_spellpredict.js'
-// wouldn't work    FrozenCookies.baseUrl + '/fc_spellreroll.js'
 ]
 
 FrozenCookies.loadInterval = setInterval(function() {
