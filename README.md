@@ -40,6 +40,7 @@ What's new?
 2019 Sept 28 
 - Adding statement that this is mostly for my own use. Some things I got from others, some things I tweaked myself, for the most part I got no clue how to write this stuff, so don't ask for bugfixes
 - Added "FancyUI" stuff from BiscuitCookies FC fork
+- Note: Was originally for 2.019, but appears to be working with 2.021 currently.  If anyone figures out how to auto-click Fortunes, I'll probably add it later
 
 2019 May 11
 - Tweaked SpellPredict to show next 10 results with more color coding. Not the prettiest columns, but I have no clue how to make them pretty.  
