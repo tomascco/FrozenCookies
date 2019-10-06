@@ -165,7 +165,7 @@ FrozenCookies.preferenceValues = {
         'default':0
     },
     'fancyui':{
-        'hint':'As these graphics are very slow, enable it here.',
+        'hint':'Options for Golden Cookie, Bank, and Purchase timers. Toggles Textbox, Wheel, Both, or None',
         'display':['No graphic','Textbox only','Wheel only','Full graphics'],
         'default':0
     } 
