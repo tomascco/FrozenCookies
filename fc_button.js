@@ -198,9 +198,9 @@ function drawCircles(t_d, x, y) {
         if (FrozenCookies.fancyui > 1) {
 			c.drawArc({
 				strokeStyle: o_draw.c1,
-				x: x + (maxRadius + 5), y:y + maxRadius + 5,
+				x: x + (maxRadius + 4), y:y + maxRadius + 4,
 				radius: maxRadius - i_c*10,
-				strokeWidth: 5,
+				strokeWidth: 7,
 				start: 0,
 				end: (360 * o_draw.f_percent)
 			});
@@ -209,7 +209,7 @@ function drawCircles(t_d, x, y) {
         {
             s_t = o_draw.name + (o_draw.display ? ": "+o_draw.display : "");
             c.drawText({
-                fontSize: "12px",
+                fontSize: "11px",
                 fontFamily: "Arial",
                 fillStyle: o_draw.c1,
                 x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + heightOffset+15*i_tc,
