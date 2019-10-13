@@ -8,14 +8,14 @@ How to use
 
 ## Bookmarklet install
 
-1. Paste the *contents* (not the url) of https://mtarnuhal.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the *contents* (not the url) of https://MakingBaconPancakes.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
 ## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to https://mtarnuhal.github.io/FrozenCookies/fc_userscript_loader.user.js
+1. Go to https://MakingBaconPancakes.github.io/FrozenCookies/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
@@ -35,8 +35,21 @@ What can Frozen Cookies do?
 
  *Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
+ **Big Note: This is mostly for my own use. Most things I got from others, some things I tweaked myself, for the most part I got no clue how to write this stuff, so don't ask for bugfixes
+
+
 What's new?
 -----------
+2019 Oct 13
+- Added Fortune autoclick bits from Mtarnuhal
+
+2019 Sept 28 
+- Added "FancyUI" stuff from BiscuitCookies FC fork
+- Note: Was originally for 2.019, but appears to be working with 2.021 currently.  If anyone figures out how to auto-click Fortunes, I'll probably add it later
+
+2019 May 11
+- Tweaked SpellPredict to show next 10 results with more color coding. Not the prettiest columns, but I have no clue how to make them pretty.  
+
 2018 Oct 27
 - Added Shimmering veil blacklists
 - Updated SE auto cast strategy to use new fractal engine instead of chancemaker.
