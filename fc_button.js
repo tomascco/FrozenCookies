@@ -200,7 +200,7 @@ function drawCircles(t_d, x, y) {
 				strokeStyle: o_draw.c1,
 				x: x + (maxRadius + 5), y:y + maxRadius + 5,
 				radius: maxRadius - i_c*10,
-				strokeWidth: 7,
+				strokeWidth: 5,
 				start: 0,
 				end: (360 * o_draw.f_percent)
 			});
