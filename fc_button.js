@@ -169,7 +169,7 @@ function drawCircles(t_d, x, y) {
     maxWidth = maxMeasure.width;
     maxHeight = maxMeasure.height * t_d.length;
     if (FrozenCookies.fancyui%2==1) c.drawRect({
-        fillStyle: 'rgba(153, 153, 153, 0.6)',
+        fillStyle: 'rgba(153, 153, 253, 0.6)',
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
         width: maxWidth + 20, height: maxHeight + 20
 	});
@@ -209,7 +209,7 @@ function drawCircles(t_d, x, y) {
         {
             s_t = o_draw.name + (o_draw.display ? ": "+o_draw.display : "");
             c.drawText({
-                fontSize: "2px",
+                fontSize: "12px",
                 fontFamily: "Arial",
                 fillStyle: o_draw.c1,
                 x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + heightOffset+15*i_tc,
