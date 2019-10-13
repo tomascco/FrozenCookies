@@ -294,7 +294,7 @@ function updateTimers() {
         t_draw.push({
             f_percent: purchaseCompletion,
             c1: 'rgba(17, 17, 17, 1)',
-            name: "Purchase Completion Time",
+            name: "Purchase Completion",
             display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), actualCps))
         });
     }
@@ -321,20 +321,20 @@ function updateTimers() {
         t_draw.push({
             f_percent: gc_max_delay,
             c1: "rgba(255, 155, 0, 1)",
-            name: "Golden Cookie Maximum (99%)",
+            name: "GC Maximum (99%)",
             display: timeDisplay((gc_max_delay * maxCookieTime()) / Game.fps)
         });
         t_draw.push({
             f_percent: gc_delay,
             c1: "rgba(255, 195, 0, 1)",
-            name: "Golden Cookie Estimate (50%)",
+            name: "GC Estimate (50%)",
             display: timeDisplay((gc_delay * maxCookieTime()) / Game.fps),
             overlay: true
         });
         t_draw.push({
             f_percent: gc_min_delay,
             c1: "rgba(255, 235, 0, 1)",
-            name: "Golden Cookie Minimum (1%)",
+            name: "GC Minimum (1%)",
             display: timeDisplay((gc_min_delay * maxCookieTime()) / Game.fps),
             overlay: true
 
