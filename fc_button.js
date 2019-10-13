@@ -198,9 +198,9 @@ function drawCircles(t_d, x, y) {
         if (FrozenCookies.fancyui > 1) {
 			c.drawArc({
 				strokeStyle: o_draw.c1,
-				x: x + (maxRadius + 5), y:y + maxRadius + 15,
+				x: x + (maxRadius + 5), y:y + maxRadius + 5,
 				radius: maxRadius - i_c*10,
-				strokeWidth: 7,
+				strokeWidth: 17,
 				start: 0,
 				end: (360 * o_draw.f_percent)
 			});
