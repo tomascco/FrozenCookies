@@ -169,7 +169,7 @@ function drawCircles(t_d, x, y) {
     maxWidth = maxMeasure.width;
     maxHeight = maxMeasure.height * t_d.length;
     if (FrozenCookies.fancyui%2==1) c.drawRect({
-        fillStyle: 'rgba(153, 153, 153, 1)',     // Default        fillStyle: 'rgba(153, 153, 153, 0.6)',
+        fillStyle: 'rgba(96, 96, 96, 1)',     // Default        fillStyle: 'rgba(153, 153, 153, 0.6)',
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
         width: maxWidth + 20, height: maxHeight + 20
 	});
