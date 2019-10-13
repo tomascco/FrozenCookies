@@ -169,7 +169,8 @@ function drawCircles(t_d, x, y) {
     maxWidth = maxMeasure.width;
     maxHeight = maxMeasure.height * t_d.length;
     if (FrozenCookies.fancyui%2==1) c.drawRect({
-        fillStyle: 'rgba(153, 153, 253, 0.6)',
+        fillStyle: 'rgba(1, 2, 3, 0.6)',
+// Default        fillStyle: 'rgba(153, 153, 153, 0.6)',
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
         width: maxWidth + 20, height: maxHeight + 20
 	});
@@ -293,7 +294,7 @@ function updateTimers() {
     if (purchaseTotal > 0) {
         t_draw.push({
             f_percent: purchaseCompletion,
-            c1: 'rgba(17, 17, 17, 1)',
+            c1: 'rgba(179, 179, 179, 1)',
             name: "Purchase Completion",
             display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), actualCps))
         });
