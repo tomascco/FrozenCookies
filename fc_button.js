@@ -294,7 +294,7 @@ function updateTimers() {
     if (purchaseTotal > 0) {
         t_draw.push({
             f_percent: purchaseCompletion,
-            c1: 'rgba(179, 179, 179, 1)',
+            c1: 'rgba(17, 179, 17, 1)',
             name: "Purchase Completion",
             display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), actualCps))
         });
