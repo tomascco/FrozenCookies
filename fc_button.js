@@ -200,7 +200,7 @@ function drawCircles(t_d, x, y) {
 				strokeStyle: o_draw.c1,
 				x: x + (maxRadius + 5), y:y + maxRadius + 5,
 				radius: maxRadius - i_c*10,
-				strokeWidth: 17,
+				strokeWidth: 7,
 				start: 0,
 				end: (360 * o_draw.f_percent)
 			});
@@ -209,7 +209,7 @@ function drawCircles(t_d, x, y) {
         {
             s_t = o_draw.name + (o_draw.display ? ": "+o_draw.display : "");
             c.drawText({
-                fontSize: "12px",
+                fontSize: "2px",
                 fontFamily: "Arial",
                 fillStyle: o_draw.c1,
                 x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + heightOffset+15*i_tc,
