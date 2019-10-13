@@ -151,7 +151,7 @@ function drawCircles(t_d, x, y) {
         return;
 	}
     maxRadius = 10 + 10*t_d.reduce(function(sum,item){return (item.overlay) ? sum : sum + 1;},0);
-    heightOffset = maxRadius + 5 - (15 * (t_d.length - 1) / 2);
+    heightOffset = maxRadius + 5 - (35 * (t_d.length - 1) / 2);
     i_c = 0;
     i_tc = 0;
     t_b = ['rgba(170, 170, 170, 1)','rgba(187, 187, 187, 1)','rgba(204, 204, 204, 1)','rgba(221, 221, 221, 1)','rgba(238, 238, 238, 1)','rgba(255, 255, 255, 1)'];
@@ -352,7 +352,7 @@ function updateTimers() {
     if (elder_frenzy_delay > 0) {
         t_draw.push({
             f_percent: elder_frenzy_delay,
-            c1: "rgba(79, 0, 7, 1)",
+            c1: "rgba(179, 0, 7, 1)",
             name: "Elder Frenzy (x" + Game.buffs['Elder frenzy'].multCpS + ") Time",
             display: timeDisplay(buffDuration('Elder frenzy')/Game.fps)
         });
