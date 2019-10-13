@@ -35,7 +35,7 @@ What can Frozen Cookies do?
 
  *Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
- ### *Note: This is mostly for my own use. Most things I got from others, some things I tweaked myself, for the most part I got no clue how to write this stuff, so don't ask for bugfixes
+ ### *Note: This is mostly for my own use. Most things I got from others, some things I tweaked myself, for the most part I got no clue how to write this stuff, so don't ask for bugfixes. Mtarnuhal gets a bulk of the credit
 
 
 What's new?
