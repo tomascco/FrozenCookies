@@ -656,11 +656,13 @@ function autoRigidel() {
             }
     }
 }
-                
-            
-            
-        
-        
+
+function autoTicker(){
+	if (Game.TickerEffect && Game.TickerEffect.type=='fortune'){
+		Game.tickerL.click();
+	}
+}
+   
 function autoCast() {
     if (!M) return; //Just leave if you don't have grimoire
     if (M.magic == M.magicM) {
@@ -2420,6 +2422,14 @@ function FCStart() {
         clearInterval(FrozenCookies.autoGodzamokBot);
         FrozenCookies.autoGodzamokBot = 0;
     }
+	if (FrozenCookies.autoSpellkBot) {
+        clearInterval(FrozenCookies.autoSpellBot);
+        FrozenCookies.autoSpellBot = 0;
+    }
+	if (FrozenCookies.autoFortuneBot) {
+        clearInterval(FrozenCookies.autoFortuneBot);
+        FrozenCookies.autoFortuneBot = 0;
+    }
 
     //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
     //    delete localStorage.wrinklers;
@@ -2458,7 +2468,11 @@ function FCStart() {
     }
     
     if(FrozenCookies.autoSpell) {
-        setInterval(autoCast, FrozenCookies.frequency*10)
+        FrozenCookies.autoSpellBot = setInterval(autoCast, FrozenCookies.frequency*10)
+    }
+	
+	if(FrozenCookies.autoFortune) {
+        FrozenCookies.autoFortuneBot = setInterval(autoTicker, FrozenCookies.frequency*10)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {

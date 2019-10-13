@@ -146,7 +146,7 @@ Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, x, y) {
     var maxRadius, heightOffset, i_c, i_tc, t_b, maxWidth, maxHeight, s_t,
-	c = $('#backgroundLeftCanvas');
+		c = $('#backgroundLeftCanvas');
     if (typeof(c.measureText) != "function") {
         return;
 	}
