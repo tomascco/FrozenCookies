@@ -28,10 +28,15 @@ function setOverrides() {
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
-    FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
-    FrozenCookies.farmMax = preferenceParse('farmMax', 500);
+    FrozenCookies.autoGodzBuildings = preferenceParse('autoGodzBuildings', 1000);
     FrozenCookies.manaMax = preferenceParse('manaMax', 100);
     FrozenCookies.maxSpecials = preferenceParse('maxSpecials', 1);
+
+    // Sell counter for Auto Godzmok
+    FrozenCookies.autoGodzCounter = FrozenCookies.autoGodzBuildings;
+
+    // last building name for cast SE
+    FrozenCookies.lastBuilding = 'Javascript console';
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -334,8 +339,7 @@ function updateLocalStorage() {
     localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
     localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
-    localStorage.cursorMax = FrozenCookies.cursorMax;
-    localStorage.farmMax = FrozenCookies.farmMax;
+    localStorage.autoGodzBuildings = FrozenCookies.autoGodzBuildings;
     localStorage.minCpSMult = FrozenCookies.minCpSMult;
     localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
@@ -506,35 +510,35 @@ function updateMaxSpecials(base) {
     }
 }
 
-function getCursorMax(current) {
-    var newMax = prompt('How many Cursors should Autobuy stop at?', current);
-    if (typeof(newMax) == 'undefined' || newMax == null || isNaN(Number(newMax)) || Number(newMax < 0)) {
-        newMax = current;
+function getautoGodzBuildings(current) {
+    var newBlds = prompt('How many total buildings you sell/buy for Godzmok during Dragonflight or Click Frenzy?\n(e.g. You have 200 cursors and set 1,000, repeat sell/buy 5 times.)', current);
+    if (typeof(newBlds) == 'undefined' || newBlds == null || isNaN(Number(newBlds)) || Number(newBlds) < 0) {
+        newMin = current;
     }
-    return Number(newMax);
+    return Number(newBlds);
 }
 
-function updateCursorMax(base) {
-    var newMax = getCursorMax(FrozenCookies[base]);
-    if (newMax != FrozenCookies[base]) {
-        FrozenCookies[base] = newMax;
-        updateLocalStorage();
-        FCStart();
-    }
-}
+function updateautoGodzBuildings(base) {
+    var newBlds = getautoGodzBuildings(FrozenCookies[base]);
+    if (newBlds != FrozenCookies[base]) {
+        FrozenCookies[base] = newBlds;
+							 
+				  
+	 
+ 
 
-function getFarmMax(current) {
-    var newMax2 = prompt('How many Farms should Autobuy stop at?', current);
-    if (typeof(newMax2) == 'undefined' || newMax2 == null || isNaN(Number(newMax2)) || Number(newMax2 < 0)) {
-        newMax2 = current;
-    }
-    return Number(newMax2);
-}
+							  
+																			
+																											 
+						  
+	 
+						   
+ 
 
-function updateFarmMax(base) {
-    var newMax2 = getFarmMax(FrozenCookies[base]);
-    if (newMax2 != FrozenCookies[base]) {
-        FrozenCookies[base] = newMax2;
+							  
+												  
+										 
+									  
         updateLocalStorage();
         FCStart();
     }
@@ -684,14 +688,14 @@ function autoCast() {
                 return;
             case 3:
                 var SE = M.spellsById[3];
-		//Chancemaker replaced by new Fractal engine	
-                //If you don't have any Fractal engine yet, or can't cast SE, just give up.
-                if (Game.Objects['Fractal engine'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
-                //If we have over 400 CM, always going to sell down to 399. If you don't have half a Chancemaker in bank, sell one
-                while (Game.Objects['Fractal engine'].amount >= 400 || Game.cookies < Game.Objects['Fractal engine'].price/2) {
-                   Game.Objects['Fractal engine'].sell(1);
+											   
+                //If you don't have any last building yet, or can't cast SE, just give up.
+                if (Game.Objects[FrozenCookies.lastBuilding].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
+                //If we have over 400 buildings, always going to sell down to 399. If you don't have half a last building in bank, sell one
+                while (Game.Objects[FrozenCookies.lastBuilding].amount >= 400 || Game.cookies < Game.Objects[FrozenCookies.lastBuilding].price/2) {
+                   Game.Objects[FrozenCookies.lastBuilding].sell(1);
 		//log event calculation outdated. sell return was reduced from .85 with earth shatterer to .5
-                   logEvent('Store', 'Sold 1 Fractal engine for ' + Beautify(Game.Objects['Fractal engine'].price*1.15*.50));
+                   logEvent('Store', 'Sold 1 last building for ' + Beautify(Game.Objects[FrozenCookies.lastBuilding].price*1.15*.50));
                 }
                 M.castSpell(SE);
                 logEvent('AutoSpell', 'Cast Spontaneous Edifice');
@@ -971,13 +975,13 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function canCastSE() {
-    if (M.magicM >= 80 && Game.Objects['Fractal engine'].amount > 0) return 1;
+    if (M.magicM >= 80 && Game.Objects[FrozenCookies.lastBuilding].amount > 0) return 1;
     return 0;
 }
 
 function edificeBank() {
     if (!canCastSE) return 0;
-    var cmCost = Game.Objects['Fractal engine'].price;
+    var cmCost = Game.Objects[FrozenCookies.lastBuilding].price;
     return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
 function luckyBank() {
@@ -1003,81 +1007,82 @@ function harvestBank() {
     FrozenCookies.harvestFrenzy = 1;
     FrozenCookies.harvestBuilding = 1;
     FrozenCookies.harvestPlant = '';
-	
+
     if(FrozenCookies.setHarvestBankType == 1 || FrozenCookies.setHarvestBankType == 3){
         FrozenCookies.harvestFrenzy = 7;
     }
-	
+
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
-	var harvestBuildingArray = [Game.Objects['Cursor'].amount,
-                           	    Game.Objects['Grandma'].amount,
-                           	    Game.Objects['Farm'].amount,
-                           	    Game.Objects['Mine'].amount,
-                           	    Game.Objects['Factory'].amount,
-                           	    Game.Objects['Bank'].amount,
-                           	    Game.Objects['Temple'].amount,
-                           	    Game.Objects['Wizard tower'].amount,
-                           	    Game.Objects['Shipment'].amount,
-                           	    Game.Objects['Alchemy lab'].amount,
-                           	    Game.Objects['Portal'].amount,
-                           	    Game.Objects['Time machine'].amount,
-                           	    Game.Objects['Antimatter condenser'].amount,
-                           	    Game.Objects['Prism'].amount,
-                           	    Game.Objects['Chancemaker'].amount,
-	    			    Game.Objects['Fractal engine'].amount];
-	harvestBuildingArray.sort(function(a, b){return b-a});
-	    
-	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
-	    FrozenCookies.harvestBuilding *= harvestBuildingArray[buildingLoop];
-	}    
+        var harvestBuildingArray = Array();
+	var i = 0;
+															   
+															
+															
+															   
+															
+															  
+																	
+        for (var j in Game.Objects) {
+																   
+															  
+																	
+																			
+            harvestBuildingArray[i] = Game.Objects[j].amount;
+            i++;
+        }
+        harvestBuildingArray.sort(function(a, b){return b-a});
+	 
+        for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
+            FrozenCookies.harvestBuilding *= harvestBuildingArray[buildingLoop];
+        }
     }
 
     switch(FrozenCookies.setHarvestBankPlant){
         case 1:
-	    FrozenCookies.harvestPlant = 'Bakeberry';
+            FrozenCookies.harvestPlant = 'Bakeberry';
             FrozenCookies.harvestMinutes = 30;
             FrozenCookies.harvestMaxPercent = 0.03;
-	break;
+            break;
             
         case 2:
-	    FrozenCookies.harvestPlant = 'Chocoroot';
+            FrozenCookies.harvestPlant = 'Chocoroot';
             FrozenCookies.harvestMinutes = 3;
             FrozenCookies.harvestMaxPercent = 0.03;
-	break;
+            break;
             
         case 3:
-	    FrozenCookies.harvestPlant = 'White Chocoroot';
+            FrozenCookies.harvestPlant = 'White Chocoroot';
             FrozenCookies.harvestMinutes = 3;
             FrozenCookies.harvestMaxPercent = 0.03;
-	break;
+            break;
             
         case 4:
-	    FrozenCookies.harvestPlant = 'Queenbeet';
+            FrozenCookies.harvestPlant = 'Queenbeet';
             FrozenCookies.harvestMinutes = 60;
             FrozenCookies.harvestMaxPercent = 0.04;
-	break;
+            break;
             
         case 5:
-	    FrozenCookies.harvestPlant = 'Duketater';
+            FrozenCookies.harvestPlant = 'Duketater';
             FrozenCookies.harvestMinutes = 120;
             FrozenCookies.harvestMaxPercent = 0.08;
-	break;
+            break;
             
         case 6:
-	    FrozenCookies.harvestPlant = 'Crumbspore';
+            FrozenCookies.harvestPlant = 'Crumbspore';
             FrozenCookies.harvestMinutes = 1;
             FrozenCookies.harvestMaxPercent = 0.01;
-	break;
+            break;
             
         case 7:
-	    FrozenCookies.harvestPlant = 'Doughshroom';
+            FrozenCookies.harvestPlant = 'Doughshroom';
             FrozenCookies.harvestMinutes = 5;
             FrozenCookies.harvestMaxPercent = 0.03;
-	break;
+            break;
     }
     
     if(FrozenCookies.maxSpecials == 0){
-	FrozenCookies.maxSpecials = 1;
+        FrozenCookies.maxSpecials = 1;
     }
 
     return baseCps() * 60 * FrozenCookies.harvestMinutes * FrozenCookies.harvestFrenzy * FrozenCookies.harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials) / FrozenCookies.harvestMaxPercent;
@@ -1239,8 +1244,8 @@ function recommendationList(recalculate) {
             .sort(function(a, b) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
-        //If autocasting Spontaneous Edifice, don't buy any Fractal engine after 399
-        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Fractal engine'].amount >= 399) {
+        //If autocasting Spontaneous Edifice, don't buy any last building after 399
+        if (M && FrozenCookies.autoSpell == 3 && Game.Objects[FrozenCookies.lastBuilding].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 15) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
@@ -1255,22 +1260,22 @@ function recommendationList(recalculate) {
                 }
             }
         }
-        //Stop buying Cursors if at set limit
-        if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
+        //Stop buying Cursors 500 if in autoGodzamok
+        if (Game.hasBuff('Devastation') && Game.Objects['Cursor'].amount >= 500) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 0) {
                     FrozenCookies.caches.recommendationList.splice(i, 1);
                 }
             }
         }
-	//Stop buying Farms if at set limit
-        if (FrozenCookies.farmLimit && Game.Objects['Farm'].amount >= FrozenCookies.farmMax) {
-            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
-                if (FrozenCookies.caches.recommendationList[i].id == 2) {
-                    FrozenCookies.caches.recommendationList.splice(i, 1);
-                }
-            }
-        }
+									
+																							  
+																					  
+																		 
+																		 
+				 
+			 
+		 
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
@@ -1432,6 +1437,10 @@ function isUnavailable(upgrade, upgradeBlacklist) {
         return a.type == "wrinklers"
     }) != null);
     result = result || (upgrade.season && (!haveAll(Game.season) || (upgrade.season != seasons[FrozenCookies.defaultSeason] && haveAll(upgrade.season))));
+
+    if (upgrade.id == 74) {
+        if ((!haveAll('halloween') || !haveAll('easter')) && upgrade.unlocked) result = true; // blacklist Elder Pledge while collecting season upgrade
+    }
 
     if (upgrade.id == 331 || upgrade.id == 332) {
         result = true; // blacklist golden switch from being used, until proper logic can be implemented
@@ -2175,29 +2184,31 @@ function autoGodzamokAction()
 {
     if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    //added Farms to autoGodzamok selling. 1 farm always left to prevent garden from disappearing
-    if (Game.hasGod('ruin') && (!Game.hasBuff('Devastation')) && hasClickBuff())
-    {
-	    if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount >= 10)
-		{
-			var count = Game.Objects['Cursor'].amount; 	
-			Game.Objects['Cursor'].sell(count); 
-		}
-        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount >= 10)
-		{
-			var count2 = Game.Objects['Farm'].amount-1; 	
-			Game.Objects['Farm'].sell(count2); 
-		}
-		
-        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
-		{
-			Game.Objects['Cursor'].buy(count);
-		}
-		
-        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
-		{
-			Game.Objects['Farm'].buy(count2);
-		}
+    if (!Game.hasBuff('Devastation') && FrozenCookies.autoGodzamok >= 1) {
+        if (!hasClickBuff() || FrozenCookies.autoGodzamok == 1) {
+            FrozenCookies.autoGodzCounter = FrozenCookies.autoGodzBuildings;
+        }
+    }
+    if (Game.hasGod('ruin') && hasClickBuff() && FrozenCookies.autoGodzamok >= 1) {
+        if (Game.Objects['Cursor'].amount >= 10 && FrozenCookies.autoGodzCounter > 0) {
+            var count = Game.Objects['Cursor'].amount;
+            if (count > FrozenCookies.autoGodzCounter) count = FrozenCookies.autoGodzCounter;
+   
+																				   
+   
+												
+            Game.Objects['Cursor'].sell(count);
+            FrozenCookies.autoGodzCounter = FrozenCookies.autoGodzCounter - count;
+            if (count > 500) count = 500;
+																					 
+   
+									 
+   
+  
+																				   
+   
+            Game.Objects['Cursor'].buy(count);
+        }
     }
 }
 
@@ -2421,7 +2432,7 @@ function FCStart() {
         clearInterval(FrozenCookies.autoGodzamokBot);
         FrozenCookies.autoGodzamokBot = 0;
     }
-	if (FrozenCookies.autoSpellkBot) {
+	if (FrozenCookies.autoSpellBot) {
         clearInterval(FrozenCookies.autoSpellBot);
         FrozenCookies.autoSpellBot = 0;
     }
