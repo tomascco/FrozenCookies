@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Cookie Clicker Predict Spell +10 Reordered
 // @namespace    http://tampermonkey.net/
-// @version      0.1.2
+// @version      0.1.2.1
 // @author       Random Reddit Guy +me +others
 // @match        http://orteil.dashnet.org/cookieclicker/
 // @source       https://www.reddit.com/r/CookieClicker/comments/6v2lz3/predict_next_hands_of_faith/
@@ -53,10 +53,10 @@ nextSpell = function(i) {
     if (!spell.fail || Math.random() < (1 - failChance)) {
         Math.random();Math.random();
         if (Game.season=='valentines' || Game.season=='easter'){Math.random();}
-        choices.push('<b style="color:#FFDE5F">Frenzy', '<b style="color:#FFDE5F">Lucky');
-        if (!Game.hasBuff('Dragonflight')) choices.push('<b style="color:#FFD700">Click Frenzy');
-        if (Math.random() < 0.1) choices.push('<b style="color:#FFDE5F">Cookie Chain', '<b style="color:#FFDE5F">Cookie Storm', 'Blab');
-        if (Game.BuildingsOwned >= 10 && Math.random() < 0.25) choices.push('<b style="color:#DAA520">Building Special');
+        choices.push('<b style="color:#FFE060">Frenzy', '<b style="color:#80C0FF">Lucky');
+        if (!Game.hasBuff('Dragonflight')) choices.push('<b style="color:#00FF40">Click Frenzy');
+        if (Math.random() < 0.1) choices.push('<b style="color:#80C0FF">Cookie Chain', '<b style="color:#FF80FF">Cookie Storm', 'Blab');
+        if (Game.BuildingsOwned >= 10 && Math.random() < 0.25) choices.push('<b style="color:#FFA000">Building Special');
         if (Math.random() < 0.15) choices = ['Cookie Storm (Drop)'];
         if (Math.random() < 0.0001) choices.push('<b style="color:#5FFFFC">Sugar Lump');
     } else {
