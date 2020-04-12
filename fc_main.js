@@ -28,15 +28,16 @@ function setOverrides() {
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
-    FrozenCookies.autoGodzBuildings = preferenceParse('autoGodzBuildings', 1000);
+    FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
+    FrozenCookies.farmMax = preferenceParse('farmMax', 500);
     FrozenCookies.manaMax = preferenceParse('manaMax', 100);
     FrozenCookies.maxSpecials = preferenceParse('maxSpecials', 1);
 
-    // Sell counter for Auto Godzmok
-    FrozenCookies.autoGodzCounter = FrozenCookies.autoGodzBuildings;
+									
+																	
 
-    // last building name for cast SE
-    FrozenCookies.lastBuilding = 'Javascript console';
+									 
+													  
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -339,7 +340,8 @@ function updateLocalStorage() {
     localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
     localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
-    localStorage.autoGodzBuildings = FrozenCookies.autoGodzBuildings;
+    localStorage.cursorMax = FrozenCookies.cursorMax;
+    localStorage.farmMax = FrozenCookies.farmMax;
     localStorage.minCpSMult = FrozenCookies.minCpSMult;
     localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
@@ -510,35 +512,35 @@ function updateMaxSpecials(base) {
     }
 }
 
-function getautoGodzBuildings(current) {
-    var newBlds = prompt('How many total buildings you sell/buy for Godzmok during Dragonflight or Click Frenzy?\n(e.g. You have 200 cursors and set 1,000, repeat sell/buy 5 times.)', current);
-    if (typeof(newBlds) == 'undefined' || newBlds == null || isNaN(Number(newBlds)) || Number(newBlds) < 0) {
-        newMin = current;
+function getCursorMax(current) {
+    var newMax = prompt('How many Cursors should Autobuy stop at?', current);
+    if (typeof(newMax) == 'undefined' || newMax == null || isNaN(Number(newMax)) || Number(newMax < 0)) {
+        newMax = current;
     }
-    return Number(newBlds);
+    return Number(newMax);
 }
 
-function updateautoGodzBuildings(base) {
-    var newBlds = getautoGodzBuildings(FrozenCookies[base]);
-    if (newBlds != FrozenCookies[base]) {
-        FrozenCookies[base] = newBlds;
-							 
-				  
-	 
- 
+function updateCursorMax(base) {
+    var newMax = getCursorMax(FrozenCookies[base]);
+    if (newMax != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax;
+        updateLocalStorage();
+        FCStart();
+    }
+}
 
-							  
-																			
-																											 
-						  
-	 
-						   
- 
+function getFarmMax(current) {
+    var newMax2 = prompt('How many Farms should Autobuy stop at?', current);
+    if (typeof(newMax2) == 'undefined' || newMax2 == null || isNaN(Number(newMax2)) || Number(newMax2 < 0)) {
+        newMax2 = current;
+    }
+    return Number(newMax2);
+}
 
-							  
-												  
-										 
-									  
+function updateFarmMax(base) {
+    var newMax2 = getFarmMax(FrozenCookies[base]);
+    if (newMax2 != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax2;
         updateLocalStorage();
         FCStart();
     }
@@ -688,7 +690,6 @@ function autoCast() {
                 return;
             case 3:
                 var SE = M.spellsById[3];
-											   
                 //If you don't have any last building yet, or can't cast SE, just give up.
                 if (Game.Objects[FrozenCookies.lastBuilding].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
                 //If we have over 400 buildings, always going to sell down to 399. If you don't have half a last building in bank, sell one
@@ -1015,23 +1016,11 @@ function harvestBank() {
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
         var harvestBuildingArray = Array();
 	var i = 0;
-															   
-															
-															
-															   
-															
-															  
-																	
         for (var j in Game.Objects) {
-																   
-															  
-																	
-																			
             harvestBuildingArray[i] = Game.Objects[j].amount;
             i++;
         }
         harvestBuildingArray.sort(function(a, b){return b-a});
-	 
         for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
             FrozenCookies.harvestBuilding *= harvestBuildingArray[buildingLoop];
         }
@@ -1268,14 +1257,14 @@ function recommendationList(recalculate) {
                 }
             }
         }
-									
-																							  
-																					  
-																		 
-																		 
-				 
-			 
-		 
+	//Stop buying Farms if at set limit
+        if (FrozenCookies.farmLimit && Game.Objects['Farm'].amount >= FrozenCookies.farmMax) {
+            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
+                if (FrozenCookies.caches.recommendationList[i].id == 2) {
+                    FrozenCookies.caches.recommendationList.splice(i, 1);
+                }
+            }
+        }
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
@@ -2184,31 +2173,33 @@ function autoGodzamokAction()
 {
     if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    if (!Game.hasBuff('Devastation') && FrozenCookies.autoGodzamok >= 1) {
-        if (!hasClickBuff() || FrozenCookies.autoGodzamok == 1) {
-            FrozenCookies.autoGodzCounter = FrozenCookies.autoGodzBuildings;
-        }
-    }
-    if (Game.hasGod('ruin') && hasClickBuff() && FrozenCookies.autoGodzamok >= 1) {
-        if (Game.Objects['Cursor'].amount >= 10 && FrozenCookies.autoGodzCounter > 0) {
-            var count = Game.Objects['Cursor'].amount;
-            if (count > FrozenCookies.autoGodzCounter) count = FrozenCookies.autoGodzCounter;
-   
-																				   
-   
-												
-            Game.Objects['Cursor'].sell(count);
-            FrozenCookies.autoGodzCounter = FrozenCookies.autoGodzCounter - count;
-            if (count > 500) count = 500;
-																					 
-   
-									 
-   
-  
-																				   
-   
-            Game.Objects['Cursor'].buy(count);
-        }
+    //added Farms to autoGodzamok selling. 1 farm always left to prevent garden from disappearing
+    if (Game.hasGod('ruin') && (!Game.hasBuff('Devastation')) && hasClickBuff())
+    {
+		 
+	 
+	    if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount >= 10)
+		{
+			var count = Game.Objects['Cursor'].amount;
+			Game.Objects['Cursor'].sell(count); 
+		}
+        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount >= 10)
+		{
+			var count2 = Game.Objects['Farm'].amount-1;
+			Game.Objects['Farm'].sell(count2); 
+		}
+		
+        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
+		{
+			var count = Game.Objects['Cursor'].amount;
+			Game.Objects['Cursor'].buy(count);
+		}
+		
+        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
+		{
+			var count2 = Game.Objects['Farm'].amount-1;
+			Game.Objects['Farm'].buy(count2);
+		}
     }
 }
 
