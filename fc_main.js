@@ -1250,7 +1250,8 @@ function recommendationList(recalculate) {
             }
         }
         //Stop buying Cursors 500 if in autoGodzamok
-        if (Game.hasBuff('Devastation') && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
+//MBP Note: Stops at this regardless of ON/OFF        if (Game.hasBuff('Devastation') && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
+        if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 0) {
                     FrozenCookies.caches.recommendationList.splice(i, 1);
